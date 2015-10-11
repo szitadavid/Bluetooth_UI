@@ -20,3 +20,6 @@ C:\Users\Szita\Documents\Visual Studio 2013\Projects\Bluetooth_UI\Bluetooth_UI\b
 C:\Users\Szita\Documents\Visual Studio 2013\Projects\Bluetooth_UI\Bluetooth_UI\bin\Debug\Bluetooth_UI.pdb
 C:\Users\Szita\Documents\Visual Studio 2013\Projects\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.exe
 C:\Users\Szita\Documents\Visual Studio 2013\Projects\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.pdb
+C:\Users\Szita\Documents\Visual Studio 2013\Projects\Bluetooth_UI\Bluetooth_UI\bin\Debug\VentilatorComm.dll
+C:\Users\Szita\Documents\Visual Studio 2013\Projects\Bluetooth_UI\Bluetooth_UI\bin\Debug\VentilatorComm.pdb
+C:\Users\Szita\Documents\Visual Studio 2013\Projects\Bluetooth_UI\Bluetooth_UI\bin\Debug\VentilatorComm.xml

@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml;
+using VentilatorComm;
 
 namespace Bluetooth_UI
 {
@@ -26,10 +27,11 @@ namespace Bluetooth_UI
     {
         
         StreamWriter filestream;
-        SerialPort comPort;
         bool toFile = false;
         XmlDocument xdoc;
         DispatcherTimer timer;
+        BluetoothConnection bt_conn;    
+
 
         public MainWindow()
         {
@@ -47,18 +49,6 @@ namespace Bluetooth_UI
                 cbPorts.SelectedItem = "COM18";
             }
 
-            cbBaudRate.Items.Add(300);
-            cbBaudRate.Items.Add(600);
-            cbBaudRate.Items.Add(1200);
-            cbBaudRate.Items.Add(2400);
-            cbBaudRate.Items.Add(9600);
-            cbBaudRate.Items.Add(14400);
-            cbBaudRate.Items.Add(19200);
-            cbBaudRate.Items.Add(38400);
-            cbBaudRate.Items.Add(57600);
-            cbBaudRate.Items.Add(115200);
-            cbBaudRate.SelectedItem = 115200;
-
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(80);
             timer.Tick += timer_Tick;
@@ -71,33 +61,25 @@ namespace Bluetooth_UI
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            comPort = new SerialPort();
-            comPort.BaudRate = Convert.ToInt32(cbBaudRate.Text);
-            comPort.DataBits = Convert.ToInt16(8);
-            comPort.StopBits = StopBits.One;
-            comPort.Handshake = Handshake.None;
-            comPort.Parity = Parity.None;
-            try
+            
+
+            string portname = Convert.ToString(cbPorts.Text);
+            bt_conn = new BluetoothConnection(portname);
+            bt_conn.DataReceived += DataReceived;
+            bt_conn.Connect();
+            if (bt_conn.ConnectionState == "ConnectionUp")
             {
-                comPort.PortName = Convert.ToString(cbPorts.Text);
-                comPort.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
-                comPort.Open();
-                if (comPort.IsOpen)
-                {
-                    lbConnectionState.Text = "Connection: Up!";
-                    lbConnectionState.Foreground = Brushes.Green;
-                }
+                lbConnectionState.Text = "Connection: Up!";
+                lbConnectionState.Foreground = Brushes.Green;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(bt_conn.ConnectionState);
             }
         }
 
-        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void DataReceived(string incomingdata)
         {
-
-            string incomingdata = comPort.ReadExisting();
             if (toFile)
             {
                 filestream.WriteLine(incomingdata);
@@ -115,28 +97,29 @@ namespace Bluetooth_UI
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            if (comPort == null)
+            if (bt_conn == null)
                 MessageBox.Show("First try to connect to the Bluetooth module");
-            else if (comPort.IsOpen)
-            {
-                string selectedcommand = cbCommands.SelectedItem.ToString();
-                XmlNode root = xdoc.SelectSingleNode("//ToDoList");
-                XmlNode currentNode = xdoc.SelectSingleNode("Commands/Command[Commandname='"
-                    + selectedcommand + "']");
 
-                string command = currentNode.SelectSingleNode("Commandtext").InnerText;
-                if (tbParam1.Text != "")
-                    command += "=" + tbParam1.Text;
-                if (tbParam2.Text != "")
-                    command += "," + tbParam1.Text;
-                if (tbParam3.Text != "")
-                    command += "," + tbParam1.Text;
-                command += "\n";
+            string selectedcommand = cbCommands.SelectedItem.ToString();
+            XmlNode root = xdoc.SelectSingleNode("//ToDoList");
+            XmlNode currentNode = xdoc.SelectSingleNode("Commands/Command[Commandname='"
+                + selectedcommand + "']");
+
+            string command = currentNode.SelectSingleNode("Commandtext").InnerText;
+            if (tbParam1.Text != "")
+                command += "=" + tbParam1.Text;
+            if (tbParam2.Text != "")
+                command += "," + tbParam1.Text;
+            if (tbParam3.Text != "")
+                command += "," + tbParam1.Text;
+            command += "\n";
+          
+
+            bool sendresult = bt_conn.Send(command);
+            if (sendresult)
                 tbOutput.Text += "Command sent: " + command;
-                comPort.Write(command);
-            }
             else
-                MessageBox.Show("Not connected to the Bluetooth module.");
+                tbOutput.Text += "Transmission failed.";
 
         }
 
@@ -178,7 +161,7 @@ namespace Bluetooth_UI
             string command = "DC=";
             command += slValue.Value.ToString() + "\n";
 
-            comPort.Write(command);
+            bt_conn.Send(command);
         }
 
         private void cbCommands_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -256,9 +239,8 @@ namespace Bluetooth_UI
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(comPort != null)
-                if(comPort.IsOpen)
-                    comPort.Close();
+            if (bt_conn != null)
+                bt_conn.Close();
             if(filestream != null)
                 filestream.Close();
         }
