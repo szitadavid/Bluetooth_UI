@@ -1,0 +1,114 @@
+<Commands>
+	<Command>
+		<Commandname>Test module</Commandname>
+		<Commandtext>AT</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Reset and power mode set</Commandname>
+		<Commandtext>AT+CFUN</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>1</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Get config value</Commandname>
+		<Commandtext>AT+S.GCFG</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>wifi_mode</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Set config value</Commandname>
+		<Commandtext>AT+S.SCFG</Commandtext>
+		<Param_num>2</Param_num>
+		<Param1_default>wifi_mode</Param1_default>
+		<Param1_default>3</Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Display all config values</Commandname>
+		<Commandtext>AT&#38;V</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Factory reset</Commandname>
+		<Commandtext>AT&#38;F</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Save current settings</Commandname>
+		<Commandtext>AT&#38;W</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Show peer table</Commandname>
+		<Commandtext>AT+S.PEERS</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Enable/disable the socket server</Commandname>
+		<Commandtext>AT+S.SOCKD</Commandtext>
+		<Param_num>2</Param_num>
+		<Param1_default>32000</Param1_default>
+		<Param1_default>t</Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Open socket</Commandname>
+		<Commandtext>AT+S.SOCKON</Commandtext>
+		<Param_num>3</Param_num>
+		<Param1_default>172.31.84.1</Param1_default>
+		<Param1_default>32000</Param1_default>
+		<Param1_default>t</Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Close socket</Commandname>
+		<Commandtext>AT+S.SOCKC</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>ID</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Query pending data</Commandname>
+		<Commandtext>AT+S.SOCKC</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>ID</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Read socket</Commandname>
+		<Commandtext>AT+S.SOCKC</Commandtext>
+		<Param_num>2</Param_num>
+		<Param1_default>ID</Param1_default>
+		<Param1_default>len</Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Escape sequence</Commandname>
+		<Commandtext>AT+S.</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+</Commands>

@@ -1,0 +1,42 @@
+<Commands>
+	<Command>
+		<Commandname>Set speed (0x0000 - 0xFFFF)</Commandname>
+		<Commandtext>SP</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>A000</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Set speed (0% - 100%)</Commandname>
+		<Commandtext>DC</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>70</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Set reference position (5 cm - 150 cm)</Commandname>
+		<Commandtext>RP</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>80</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Get speed ON/OFF</Commandname>
+		<Commandtext>GS</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>1</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+	<Command>
+		<Commandname>Get distance ON/OFF</Commandname>
+		<Commandtext>GD</Commandtext>
+		<Param_num>1</Param_num>
+		<Param1_default>1</Param1_default>
+		<Param1_default></Param1_default>
+		<Param1_default></Param1_default>
+	</Command>
+</Commands>
