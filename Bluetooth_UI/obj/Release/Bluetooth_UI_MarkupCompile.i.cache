@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\
 Bluetooth_UI
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\App.xaml
 11151548125
 
-13-323430189
-13562838165
+12-224275647
+12-1401562060
 MainWindow.xaml;
 
 False

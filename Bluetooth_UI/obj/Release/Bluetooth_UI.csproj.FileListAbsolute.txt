@@ -1,0 +1,8 @@
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Release\Bluetooth_UI.exe.config
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\MainWindow.baml
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\MainWindow.g.cs
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\App.g.cs
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\Bluetooth_UI_MarkupCompile.cache
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\Bluetooth_UI.g.resources
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\Bluetooth_UI.Properties.Resources.resources
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Release\Bluetooth_UI.csproj.GenerateResource.Cache

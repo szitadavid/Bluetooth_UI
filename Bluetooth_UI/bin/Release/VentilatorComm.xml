@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VentilatorComm</name>
+    </assembly>
+    <members>
+        <member name="M:VentilatorComm.BluetoothConnection.Connect">
+            <summary>
+             Tries to connect to the device, and sets the ConnectionState property:
+             <para>Connection OK: "ConnectionUp"</para>
+             <para>Connection failed: the message of the caught exception</para>
+            </summary>
+        </member>
+    </members>
+</doc>
