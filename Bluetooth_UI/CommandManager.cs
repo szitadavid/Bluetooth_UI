@@ -36,7 +36,16 @@ namespace Bluetooth_UI
 
         private void dataReceived(string incomingdata)
         {
- 	        settingsmanager.WriteToOutput(incomingdata);
+            while (incomingdata.Length != 0)
+            {
+                int index = incomingdata.IndexOf("\n");
+                if (index > 0)
+                {
+                    settingsmanager.WriteToOutput(incomingdata.Substring(0, index));
+                    incomingdata = incomingdata.Substring(index + 1);
+                }
+                else incomingdata = "";
+            }
         }
 
         public List<string> GetCommandList(string xmlFilePath)

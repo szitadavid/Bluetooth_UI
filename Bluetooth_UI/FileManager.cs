@@ -40,7 +40,16 @@ namespace Bluetooth_UI
             {
                 using (StreamWriter sw = new StreamWriter(filePath, true))
                 {
-                    sw.WriteLine(data);
+                    while (data.Length != 0)
+                    {
+                        int index = data.IndexOf("\n");
+                        if (index > 0)
+                        {
+                            sw.WriteLine(data.Substring(0, index));
+                            data = data.Substring(index + 1);
+                        }
+                        else data = "";
+                    }
                 }
             }
             catch(Exception e)
