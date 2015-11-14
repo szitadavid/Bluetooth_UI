@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Threading;
 using System.Xml;
-using VentilatorComm;
+using Ventilator_Connection;
 
 namespace Bluetooth_UI
 {
@@ -21,14 +21,22 @@ namespace Bluetooth_UI
             settingsmanager = sm;
         }
     
-        public string OpenBlueToothConnection(string portname)
+        public void OpenBlueToothConnection(string portname)
         {
-            BluetoothConnection bluetoothConnection;
             bluetoothConnection = new BluetoothConnection(portname);
-            bluetoothConnection.DataReceived += settingsmanager.dataReceived;
+            bluetoothConnection.DataReceived += dataReceived;
+            bluetoothConnection.ConnectionUp += ConnectionResult;
             bluetoothConnection.Connect();
+        }
 
-            return bluetoothConnection.ConnectionState;
+        private void ConnectionResult(bool status)
+        {
+            settingsmanager.SetConnectionState(status);
+        }
+
+        private void dataReceived(string incomingdata)
+        {
+ 	        settingsmanager.WriteToOutput(incomingdata);
         }
 
         public List<string> GetCommandList(string xmlFilePath)
@@ -80,7 +88,43 @@ namespace Bluetooth_UI
         public void CloseBlueToothConnection()
         {
             if (bluetoothConnection != null)
+            {
                 bluetoothConnection.Close();
+            }
+        }
+
+        public int GetParameterList(string commandName, out string param1, out string param2, out string param3)
+        {
+            Command command = commands.Find(x => x.CommandName == commandName);
+
+            param1 = command.Parameter1;
+            param2 = command.Parameter2;
+            param3 = command.Parameter3;
+
+            return command.ParameterNumber;
+        }
+
+        public bool SendCommand(string commandName, string param1, string param2, string param3, SettingsManager.CommandDestiny commandDestiny)
+        {
+            if (bluetoothConnection != null &&
+                bluetoothConnection.ConnectionState == "ConnectionUp")
+            {
+                Command command = commands.Find(x => x.CommandName == commandName);
+                string commandText = command.CommandText;
+
+                if (command.ParameterNumber > 0)
+                    commandText += "=" + param1;
+                if (command.ParameterNumber > 1)
+                    commandText += "," + param2;
+                if (command.ParameterNumber > 2)
+                    commandText += "," + param3;
+                commandText += "\n";
+
+                return bluetoothConnection.Send(commandText);
+            }
+
+            else
+                return false;
         }
     }
 }
