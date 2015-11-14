@@ -42,23 +42,17 @@ namespace Bluetooth_UI
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-           
+            SettingsManager.Instance.SendCommand();
         }
-
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            SettingsManager.Instance.SaveToFile();
-        }
-
 
         private void cbCommands_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            SettingsManager.Instance.FillParameterList();
         }
 
-        private void rbIsChecked_Changed(object sender, RoutedEventArgs e)
+        private void rbDestinyIsChecked_Changed(object sender, RoutedEventArgs e)
         {
-            
+            SettingsManager.Instance.FillCommandCommandBox();
         }
 
         //ToDo: get distance, get speed checkbox lekezelése -> parancsküldés.
@@ -66,6 +60,21 @@ namespace Bluetooth_UI
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SettingsManager.Instance.Close();
+        }
+
+        private void btSelectFile_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.Instance.SelectFile();
+        }
+
+        private void cbSaveToFile_Changed(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.Instance.SaveToFile();
+        }
+
+        private void tabConnection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SettingsManager.Instance.TabItemChanged();
         }
     }
 }

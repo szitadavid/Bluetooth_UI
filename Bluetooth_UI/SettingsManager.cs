@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Bluetooth_UI
 {
@@ -22,6 +25,8 @@ namespace Bluetooth_UI
         { }
 
         private MainWindow mainWindow;
+
+        Dispatcher dispatcher = Dispatcher.CurrentDispatcher; 
 
         public static void Initialize(MainWindow window)
         {
@@ -54,7 +59,8 @@ namespace Bluetooth_UI
             }
             mainWindow.cbPorts.SelectedItem = "COM18";
             mainWindow.cbPorts.ItemsSource = ports;
-            FillCommandCommandBox();
+            mainWindow.tbFilepath.Text = filemanager.FilePath;
+            mainWindow.rbDestinySystem.IsChecked = true;
         }
 
         /*///////////////////////////////////////////////////////////////*/
@@ -65,58 +71,194 @@ namespace Bluetooth_UI
 
         CommandManager commandmanager;
 
-        //switch between writing to file and to the textbox
-        bool writeToFile = false;
-        
-        //ToDo: find a better place for them #1
+        DispatcherTimer timer = new DispatcherTimer();
 
-        
-        public void Connect()
+        /*///////////////////////////////////////////////////////////////*/
+
+
+        public enum CommandDestiny
         {
-            //ToDo: after connection through wifi is possible, user should be able to choose between connection type
-            //Connection through wifi: BT and system settings are available
-            //Connection through BT: wifi and system settings are available
-            string portname = mainWindow.cbPorts.SelectedItem.ToString();
-
-            string connectionresult = commandmanager.OpenBlueToothConnection(portname);
-
-            if (connectionresult == "ConnectionUp")
-            {
-                mainWindow.lbConnectionState.Text = "Connection: Up!";
-                mainWindow.lbConnectionState.Foreground = Brushes.Green;
-            }
-            else
-            {
-                MessageBox.Show(connectionresult);
-            }  
+            Bluetooth,
+            WiFi,
+            System
         }
 
-        public void dataReceived(string incomingdata)
+        //switch between writing to file and to the textbox
+        bool writeToFile = false;
+
+        public void Connect()
+        {
+            string portname = mainWindow.cbPorts.SelectedItem.ToString();
+            mainWindow.btConnect.IsEnabled = false;
+            
+            commandmanager.OpenBlueToothConnection(portname);
+        }
+
+        public void WriteToOutput(string message)
         {
             if (writeToFile == false)
             {
-                mainWindow.tbOutput.Text += incomingdata;
-                mainWindow.tbOutput.ScrollToEnd();
+                RefreshOutputTextBox(message);
             }
             else
             {
-                filemanager.WriteLine(incomingdata);
+                filemanager.WriteLine(message);
             }
+        }
+
+        private void RefreshOutputTextBox(string message)
+        {
+            mainWindow.Dispatcher.Invoke((Action)(() =>
+            {
+                mainWindow.tbOutput.Text += message + "\r\n";
+                mainWindow.tbOutput.ScrollToEnd();
+            }));
         }
 
         public void SaveToFile()
         {
-            //ToDo #2: Legyen választható az útvonal - pl OpenFileDialog 
-            writeToFile = true;
+            if (mainWindow.cbSaveToFile.IsChecked == true)
+            {
+                //ToDo: parancsot küldeni, hogy mostantól csv fileformatban küldjön a mikrokontroller
+
+                timer.Interval = TimeSpan.FromMilliseconds(100);
+                timer.Tick += sendPeriodicDutyCycle;
+                timer.Start();
+                writeToFile = true;
+            }
+            else
+            {
+                //ToDo: parancsot küldeni, hogy mostantól olvasható formában küldjön a mikrokontroller
+                timer.Stop();
+                timer.Tick -= sendPeriodicDutyCycle;
+                writeToFile = false;
+            }
+        }
+
+        void sendPeriodicDutyCycle(object sender, EventArgs e)
+        {
+            string param1 = mainWindow.slValue.Value.ToString();
+            
+            if (commandmanager.SendCommand("Set speed (0% - 100%)", param1, null, null, CommandDestiny.System) == false)
+            {
+                RefreshOutputTextBox("Sending failed.");
+            }
         }
 
         public void FillCommandCommandBox()
         {
             //ToDo: lekezelni a checkboxokat
             List<string> commandNameList = new List<string>();
-            commandNameList = commandmanager.GetCommandList("WifiCommands.xml");
+            string fileName;
+            if (mainWindow.rbDestinyBluetooth.IsChecked == true)
+                fileName = "BluetoothCommands.xml";
+            else if (mainWindow.rbDestinyWifi.IsChecked == true)
+                fileName = "WifiCommands.xml";
+            else
+                fileName = "SystemCommands.xml";
+            commandNameList = commandmanager.GetCommandList(fileName);
             mainWindow.cbCommands.ItemsSource = commandNameList;
             mainWindow.cbCommands.SelectedIndex = 0;
+            FillParameterList();
+        }
+
+        public void FillParameterList()
+        {
+            if (mainWindow.cbCommands.SelectedItem != null)
+            {
+                string commandName = mainWindow.cbCommands.SelectedItem.ToString();
+                string param1, param2, param3;
+
+                int paramnum = commandmanager.GetParameterList(commandName, out param1, out param2, out param3);
+
+                mainWindow.tbParam1.IsEnabled = true;
+                mainWindow.tbParam2.IsEnabled = true;
+                mainWindow.tbParam3.IsEnabled = true;
+
+                mainWindow.tbParam1.Text = param1;
+                mainWindow.tbParam2.Text = param2;
+                mainWindow.tbParam3.Text = param3;
+
+                if (paramnum < 3)
+                    mainWindow.tbParam3.IsEnabled = false;
+                if (paramnum < 2)
+                    mainWindow.tbParam2.IsEnabled = false;
+                if (paramnum < 1)
+                    mainWindow.tbParam1.IsEnabled = false;
+            }
+        }
+
+        public void SendCommand()
+        {
+            string commandName = mainWindow.cbCommands.SelectedItem.ToString();
+            //ToDo: választás cb box alapján vagy eltárolni változóba az aktuálisat
+            CommandDestiny commandDestiny = CommandDestiny.System;
+
+            string param1=null, param2=null, param3=null;
+            if (mainWindow.tbParam1.IsEnabled)
+                param1 = mainWindow.tbParam1.Text;
+            if (mainWindow.tbParam2.IsEnabled)
+                param2 = mainWindow.tbParam2.Text;
+            if (mainWindow.tbParam3.IsEnabled)
+                param3 = mainWindow.tbParam3.Text;
+
+            if(commandmanager.SendCommand(commandName, param1, param2, param3, commandDestiny) == false)
+            {
+                RefreshOutputTextBox("Sending failed.");
+            }
+        }
+
+        public void SelectFile()
+        {
+            SaveFileDialog savefile = new SaveFileDialog();
+            savefile.Filter = "CSV file (*.csv)|*.csv";
+            if(savefile.ShowDialog() == true)
+                mainWindow.tbFilepath.Text = savefile.FileName;
+            filemanager.FilePath = savefile.FileName;
+            filemanager.OpenFile();
+        }
+
+        public void TabItemChanged()
+        {
+            if (mainWindow.tabBluetooth.IsSelected == true)
+            {
+                mainWindow.rbDestinyBluetooth.IsEnabled = false;
+                mainWindow.rbDestinyWifi.IsEnabled = true;
+                if(mainWindow.rbDestinyBluetooth.IsChecked == true)
+                {
+                    mainWindow.rbDestinyWifi.IsChecked = true;
+                }
+            }
+            else
+            {
+                mainWindow.rbDestinyWifi.IsEnabled= false;
+                mainWindow.rbDestinyBluetooth.IsEnabled = true;
+                if (mainWindow.rbDestinyWifi.IsChecked == true)
+                {
+                    mainWindow.rbDestinyBluetooth.IsChecked = true;
+                }
+            }
+        }
+
+        delegate void ConnectThreadEndInvoker(bool status);
+        public void SetConnectionState(bool status)
+        {
+            if (!dispatcher.CheckAccess()) // CheckAccess returns true if you're on the dispatcher thread
+            {
+                dispatcher.Invoke(new ConnectThreadEndInvoker(SetConnectionState), status);
+                return;
+            }
+
+            if(status == true)
+            {
+                mainWindow.lbConnectionState.Foreground = Brushes.Green;
+                mainWindow.lbConnectionState.Text = "Up!";
+            }
+            else
+            {
+                mainWindow.btConnect.IsEnabled = true;
+                MessageBox.Show("Something went wrong, connection down.");
+            }
         }
 
         public void Close()

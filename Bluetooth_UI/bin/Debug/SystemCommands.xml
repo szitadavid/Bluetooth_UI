@@ -11,7 +11,7 @@
 		<Commandname>Set speed (0% - 100%)</Commandname>
 		<Commandtext>DC</Commandtext>
 		<Param_num>1</Param_num>
-		<Param1_default>70</Param1_default>
+		<Param1_default>700</Param1_default>
 		<Param2_default></Param2_default>
 		<Param3_default></Param3_default>
 	</Command>
@@ -36,6 +36,14 @@
 		<Commandtext>GD</Commandtext>
 		<Param_num>1</Param_num>
 		<Param1_default>1</Param1_default>
+		<Param2_default></Param2_default>
+		<Param3_default></Param3_default>
+	</Command>
+	<Command>
+		<Commandname>Heart beat</Commandname>
+		<Commandtext>CHB</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
 		<Param2_default></Param2_default>
 		<Param3_default></Param3_default>
 	</Command>

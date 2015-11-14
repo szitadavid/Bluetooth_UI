@@ -1,0 +1,10 @@
+<Commands>
+	<Command>
+		<Commandname></Commandname>
+		<Commandtext></Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param2_default></Param2_default>
+		<Param3_default></Param3_default>
+	</Command>
+</Commands>

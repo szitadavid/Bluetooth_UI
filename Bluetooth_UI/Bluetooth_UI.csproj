@@ -44,8 +44,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="VentilatorComm">
-      <HintPath>..\..\VentilatorComm\VentilatorComm\bin\Debug\VentilatorComm.dll</HintPath>
+    <Reference Include="Ventilator_Connection">
+      <HintPath>..\..\Connection_dll\Ventilator_Connection\Ventilator_Connection\bin\Debug\Ventilator_Connection.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

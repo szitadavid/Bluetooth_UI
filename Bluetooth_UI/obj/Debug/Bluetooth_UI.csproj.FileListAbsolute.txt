@@ -28,8 +28,6 @@ C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.pdb
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\Bluetooth_UI.exe
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\Bluetooth_UI.pdb
-C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\VentilatorComm.pdb
-C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\VentilatorComm.xml
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.csprojResolveAssemblyReference.cache
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\MainWindow.baml
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\MainWindow.g.cs
@@ -38,3 +36,5 @@ C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.g.resources
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.Properties.Resources.resources
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.csproj.GenerateResource.Cache
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\Ventilator_Connection.dll
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\Ventilator_Connection.pdb

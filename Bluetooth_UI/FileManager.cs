@@ -10,16 +10,35 @@ namespace Bluetooth_UI
 {
     class FileManager
     {
-
-        //ToDo #2: Legyen választható az útvonal - pl OpenFileDialog 
         string filePath = "C:\\Users\\Szita\\Desktop\\test.csv";
+
+        public string FilePath 
+        { 
+            get {return filePath;}
+            //no validation :(
+            set {filePath=value;}
+        }
+
+        public bool OpenFile()
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(filePath))
+                { }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         public void WriteLine(string data)
         {
             //ToDo: jobb a használat során végig foglalva tartani a fájlt? -szerintem jobb lenne
             try
             {
-                using (StreamWriter sw = new StreamWriter(filePath))
+                using (StreamWriter sw = new StreamWriter(filePath, true))
                 {
                     sw.WriteLine(data);
                 }
