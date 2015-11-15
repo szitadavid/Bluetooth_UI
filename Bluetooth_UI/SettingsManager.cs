@@ -26,7 +26,6 @@ namespace Bluetooth_UI
 
         private MainWindow mainWindow;
 
-        Dispatcher dispatcher = Dispatcher.CurrentDispatcher; 
 
         public static void Initialize(MainWindow window)
         {
@@ -240,16 +239,9 @@ namespace Bluetooth_UI
             }
         }
 
-        delegate void ConnectThreadEndInvoker(bool status);
-        public void SetConnectionState(bool status)
+        public void SetConnectionState(string result)
         {
-            if (!dispatcher.CheckAccess()) // CheckAccess returns true if you're on the dispatcher thread
-            {
-                dispatcher.Invoke(new ConnectThreadEndInvoker(SetConnectionState), status);
-                return;
-            }
-
-            if(status == true)
+            if(result == "ConnectionUp")
             {
                 mainWindow.lbConnectionState.Foreground = Brushes.Green;
                 mainWindow.lbConnectionState.Text = "Up!";
@@ -257,7 +249,7 @@ namespace Bluetooth_UI
             else
             {
                 mainWindow.btConnect.IsEnabled = true;
-                MessageBox.Show("Something went wrong, connection down.");
+                MessageBox.Show(result);
             }
         }
 

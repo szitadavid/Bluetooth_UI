@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
@@ -20,19 +21,33 @@ namespace Bluetooth_UI
         {
             settingsmanager = sm;
         }
-    
+
+        //főszál
         public void OpenBlueToothConnection(string portname)
         {
             bluetoothConnection = new BluetoothConnection(portname);
             bluetoothConnection.DataReceived += dataReceived;
-            bluetoothConnection.ConnectionUp += ConnectionResult;
-            bluetoothConnection.Connect();
+            BackgroundWorker connectionWorker = new BackgroundWorker();
+            connectionWorker.DoWork += connectionWorker_DoWork;
+            connectionWorker.RunWorkerCompleted += connectionWorker_RunWorkerCompleted;
+            connectionWorker.RunWorkerAsync();
         }
 
-        private void ConnectionResult(bool status)
+        //connectionWorker szál
+        void connectionWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            settingsmanager.SetConnectionState(status);
+            bluetoothConnection.Connect();
+            e.Result = (object) bluetoothConnection.ConnectionState;
         }
+
+        //főszál
+        void connectionWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (bluetoothConnection.ConnectionState != "ConnectionUp")
+                bluetoothConnection.DataReceived -= dataReceived;
+            settingsmanager.SetConnectionState((string)e.Result);
+        }
+
 
         private void dataReceived(string incomingdata)
         {
@@ -119,7 +134,7 @@ namespace Bluetooth_UI
                 bluetoothConnection.ConnectionState == "ConnectionUp")
             {
                 Command command = commands.Find(x => x.CommandName == commandName);
-                string commandText = command.CommandText;
+                string commandText = "C" + command.CommandText;
 
                 if (command.ParameterNumber > 0)
                     commandText += "=" + param1;
