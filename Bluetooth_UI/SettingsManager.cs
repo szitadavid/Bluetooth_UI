@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace Bluetooth_UI
@@ -49,17 +50,24 @@ namespace Bluetooth_UI
 
         private void InitializeUI()
         {
+            FillPortList();
+            mainWindow.tbFilepath.Text = filemanager.FilePath;
+            mainWindow.rbDestinySystem.IsChecked = true;
+            string path = "Res/Wifi2.png";
+            BitmapImage bitmap = new BitmapImage(new Uri(path, UriKind.Relative));
+            mainWindow.image.Source = bitmap;
+        }
+
+        public void FillPortList()
+        {
             List<string> ports = new List<string>();
             string[] portlist = SerialPort.GetPortNames();
-            //ToDo: find a better place for them #1 than a static function
             foreach (string port in portlist)
             {
                 ports.Add(port);
             }
             mainWindow.cbPorts.SelectedItem = "COM18";
             mainWindow.cbPorts.ItemsSource = ports;
-            mainWindow.tbFilepath.Text = filemanager.FilePath;
-            mainWindow.rbDestinySystem.IsChecked = true;
         }
 
         /*///////////////////////////////////////////////////////////////*/
@@ -146,7 +154,6 @@ namespace Bluetooth_UI
 
         public void FillCommandCommandBox()
         {
-            //ToDo: lekezelni a checkboxokat
             List<string> commandNameList = new List<string>();
             string fileName;
             if (mainWindow.rbDestinyBluetooth.IsChecked == true)

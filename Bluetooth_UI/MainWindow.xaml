@@ -16,6 +16,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        <Grid.Resources>
+            <Image x:Key="refresh" Source="Res/refresh.png"/>
+        </Grid.Resources>
 
         <Border Margin="0,5,5,5" Grid.Row="0" Grid.Column="0"
             Background="GhostWhite" BorderBrush="Gray" BorderThickness="3">
@@ -25,17 +28,27 @@
                     <TabItem Name="tabBluetooth">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Bluetooth"/>
+                                <Image  Source="Res/Bluetooth.png" Height="15"/>
+                                <TextBlock Margin="2,0,0,0" Text="Bluetooth"/>
                             </StackPanel>
                         </TabItem.Header>
                         <DockPanel LastChildFill="False">
                             <TextBlock DockPanel.Dock="Left" Margin="5,10,0,0" HorizontalAlignment="Left">Port:</TextBlock>
-                            <ComboBox Name="cbPorts" DockPanel.Dock="Right" Width="100" Margin="5,10,5,10" HorizontalAlignment="Left"
-                                      Height="20" VerticalAlignment="Top">
-                            </ComboBox>
+                            <WrapPanel HorizontalAlignment="Left" DockPanel.Dock="Right">
+                                <Button Height="20" Width="20" Content="{StaticResource refresh}" Click="refresh_Click"/>
+                                <ComboBox Name="cbPorts"  Width="100" Margin="5,10,5,10" 
+                                          Height="20" VerticalAlignment="Top">
+                                </ComboBox>
+                            </WrapPanel>
                         </DockPanel>
                     </TabItem>
-                    <TabItem Name="tabWifi" Header="WiFi">
+                    <TabItem Name="tabWifi" >
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image  x:Name="image" Height="15"/>
+                                <TextBlock Margin="5,0,0,0" Text="Wifi"/>
+                            </StackPanel>
+                        </TabItem.Header>
                         <Label>Not implemented yet!</Label>
                     </TabItem>
                 </TabControl>

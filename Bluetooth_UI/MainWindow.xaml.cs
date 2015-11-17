@@ -76,5 +76,10 @@ namespace Bluetooth_UI
         {
             SettingsManager.Instance.TabItemChanged();
         }
+
+        private void refresh_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.Instance.FillPortList();
+        }
     }
 }
