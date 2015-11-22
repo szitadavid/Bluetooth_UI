@@ -95,10 +95,15 @@ namespace Bluetooth_UI
 
         public void Connect()
         {
-            string portname = mainWindow.cbPorts.SelectedItem.ToString();
-            mainWindow.btConnect.IsEnabled = false;
-            
-            commandmanager.OpenBlueToothConnection(portname);
+            if (mainWindow.tabBluetooth.IsSelected)
+            {
+                if (mainWindow.cbPorts.SelectedItem != null)
+                {
+                    string portname = mainWindow.cbPorts.SelectedItem.ToString();
+                    mainWindow.btConnect.IsEnabled = false;
+                    commandmanager.OpenBlueToothConnection(portname);
+                }
+            }
         }
 
         public void WriteToOutput(string message)
@@ -129,8 +134,8 @@ namespace Bluetooth_UI
                 //ToDo: parancsot küldeni, hogy mostantól csv fileformatban küldjön a mikrokontroller
 
                 timer.Interval = TimeSpan.FromMilliseconds(100);
-                timer.Tick += sendPeriodicDutyCycle;
-                timer.Start();
+                //timer.Tick += sendPeriodicDutyCycle;
+                //timer.Start();
                 writeToFile = true;
             }
             else
@@ -257,6 +262,30 @@ namespace Bluetooth_UI
             {
                 mainWindow.btConnect.IsEnabled = true;
                 MessageBox.Show(result);
+            }
+        }
+
+        private double Kc=3.1;
+        private double Ti=1.0;
+        private double Td=0;
+        public void PIDSettings()
+        {
+            PIDSettings pidSettings = new PIDSettings();
+            pidSettings.Kc = Kc;
+            pidSettings.Ti = Ti;
+            pidSettings.Td = Td;
+            if (pidSettings.ShowDialog() == true)
+            {               
+                //ToDO: PID paraméterek beállítása
+
+                //commandmanager.SendCommand("Set PID parameters", null, null, null, CommandDestiny.System);
+                Kc = pidSettings.Kc;
+                Ti = pidSettings.Ti;
+                Td = pidSettings.Td;
+                string param1 = Kc.ToString("0.0000", System.Globalization.CultureInfo.InvariantCulture);
+                string param2 = Ti.ToString("0.0000", System.Globalization.CultureInfo.InvariantCulture);
+                string param3 = Td.ToString("0.0000", System.Globalization.CultureInfo.InvariantCulture);
+                commandmanager.SendCommand("Set PID parameters", param1, param2, param3, CommandDestiny.System);
             }
         }
 
