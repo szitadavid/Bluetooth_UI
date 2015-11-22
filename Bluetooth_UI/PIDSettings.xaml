@@ -1,0 +1,28 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Bluetooth_UI" x:Class="Bluetooth_UI.PIDSettings"
+        WindowStartupLocation="CenterScreen"
+        Title="PIDSettings" Height="200" Width="300" Loaded="Window_Loaded">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <local:ValueSetter Grid.Row="0" x:Name="vsParamKc"></local:ValueSetter>
+        <local:ValueSetter Grid.Row="1" x:Name="vsParamTi"></local:ValueSetter>
+        <local:ValueSetter Grid.Row="2" x:Name="vsParamTd"></local:ValueSetter>
+
+        <WrapPanel Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">Ok</Button>
+            <Button IsCancel="True" MinWidth="60">Cancel</Button>
+        </WrapPanel>
+    </Grid>
+</Window>
