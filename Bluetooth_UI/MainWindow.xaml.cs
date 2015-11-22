@@ -81,5 +81,10 @@ namespace Bluetooth_UI
         {
             SettingsManager.Instance.FillPortList();
         }
+
+        private void btPIDSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.Instance.PIDSettings();
+        }
     }
 }

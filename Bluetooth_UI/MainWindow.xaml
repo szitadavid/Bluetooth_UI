@@ -103,7 +103,17 @@
         <Border Margin="0,5,5,5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
             Background="GhostWhite" BorderBrush="Gray" BorderThickness="3">
             <StackPanel >
-                <Label FontWeight="Bold">System settings:</Label>
+                <WrapPanel>
+                    <Label FontWeight="Bold">System settings:</Label>
+                    <Button Name="btPIDSettings" Click="btPIDSettings_Click" Margin="15,0,0,0" Height="20">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image  Source="Res/Settings.png" Height="15"/>
+                                <TextBlock Margin="2,0,0,0" Text="PID"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </WrapPanel>
                 <CheckBox Margin="5,0,0,0">Get speed</CheckBox>
                 <CheckBox Margin="5,0,0,0" >Get distance</CheckBox>
                 <WrapPanel>
