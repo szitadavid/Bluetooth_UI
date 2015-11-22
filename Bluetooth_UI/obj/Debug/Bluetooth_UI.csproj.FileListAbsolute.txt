@@ -38,3 +38,9 @@ C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI.csproj.GenerateResource.Cache
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\Ventilator_Connection.dll
 C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\bin\Debug\Ventilator_Connection.pdb
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\PIDSettings.baml
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\ValueSetter.baml
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\PIDSettings.g.cs
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\ValueSetter.g.cs
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Szita\Documents\GitHub\Bluetooth_UI\Bluetooth_UI\obj\Debug\Bluetooth_UI_MarkupCompile.lref

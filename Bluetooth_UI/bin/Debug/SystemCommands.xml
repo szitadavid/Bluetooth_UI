@@ -47,4 +47,20 @@
 		<Param2_default></Param2_default>
 		<Param3_default></Param3_default>
 	</Command>
+	<Command>
+		<Commandname>Get PID parameters</Commandname>
+		<Commandtext>GP</Commandtext>
+		<Param_num>0</Param_num>
+		<Param1_default></Param1_default>
+		<Param2_default></Param2_default>
+		<Param3_default></Param3_default>
+	</Command>
+	<Command>
+		<Commandname>Set PID parameters</Commandname>
+		<Commandtext>CP</Commandtext>
+		<Param_num>3</Param_num>
+		<Param1_default></Param1_default>
+		<Param2_default></Param2_default>
+		<Param3_default></Param3_default>
+	</Command>
 </Commands>
