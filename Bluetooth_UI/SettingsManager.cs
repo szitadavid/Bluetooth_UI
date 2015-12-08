@@ -22,9 +22,6 @@ namespace Bluetooth_UI
             get { return instance; }
         }
 
-        private SettingsManager()
-        { }
-
         private MainWindow mainWindow;
 
 
@@ -39,11 +36,6 @@ namespace Bluetooth_UI
             instance.commandmanager = new CommandManager(instance);
 
             instance.InitializeUI();
-        }
-
-        public MainWindow SettingPanel
-        {
-            get { return mainWindow; }
         }
 
         /*///////////////////////////////////////////////////////////////*/
@@ -71,17 +63,15 @@ namespace Bluetooth_UI
         }
 
         /*///////////////////////////////////////////////////////////////*/
+        
+        private FileManager filemanager = new FileManager();
 
-        List<Command> commands = new List<Command>();
+        private CommandManager commandmanager;
 
-        FileManager filemanager = new FileManager();
-
-        CommandManager commandmanager;
-
-        DispatcherTimer timer = new DispatcherTimer();
+        private DispatcherTimer timer = new DispatcherTimer();
 
         /*///////////////////////////////////////////////////////////////*/
-
+        
 
         public enum CommandDestiny
         {
@@ -91,7 +81,7 @@ namespace Bluetooth_UI
         }
 
         //switch between writing to file and to the textbox
-        bool writeToFile = false;
+        private bool writeToFile = false;
 
         public void Connect()
         {
@@ -147,7 +137,7 @@ namespace Bluetooth_UI
             }
         }
 
-        void sendPeriodicDutyCycle(object sender, EventArgs e)
+        private void sendPeriodicDutyCycle(object sender, EventArgs e)
         {
             string param1 = mainWindow.slValue.Value.ToString();
             
@@ -203,8 +193,14 @@ namespace Bluetooth_UI
         {
             string commandName = mainWindow.cbCommands.SelectedItem.ToString();
             //ToDo: választás cb box alapján vagy eltárolni változóba az aktuálisat
-            CommandDestiny commandDestiny = CommandDestiny.System;
-
+            CommandDestiny commandDestiny;
+            if(mainWindow.rbDestinySystem.IsChecked == true)
+                 commandDestiny = CommandDestiny.System;
+            else if(mainWindow.rbDestinyBluetooth.IsChecked == true)
+                commandDestiny = CommandDestiny.Bluetooth;
+            else
+                commandDestiny = CommandDestiny.WiFi;
+            
             string param1=null, param2=null, param3=null;
             if (mainWindow.tbParam1.IsEnabled)
                 param1 = mainWindow.tbParam1.Text;
@@ -276,9 +272,6 @@ namespace Bluetooth_UI
             pidSettings.Td = Td;
             if (pidSettings.ShowDialog() == true)
             {               
-                //ToDO: PID paraméterek beállítása
-
-                //commandmanager.SendCommand("Set PID parameters", null, null, null, CommandDestiny.System);
                 Kc = pidSettings.Kc;
                 Ti = pidSettings.Ti;
                 Td = pidSettings.Td;
@@ -286,6 +279,8 @@ namespace Bluetooth_UI
                 string param2 = Ti.ToString("0.0000", System.Globalization.CultureInfo.InvariantCulture);
                 string param3 = Td.ToString("0.0000", System.Globalization.CultureInfo.InvariantCulture);
                 commandmanager.SendCommand("Set PID parameters", param1, param2, param3, CommandDestiny.System);
+                filemanager.FilePath = "C:\\Users\\Szita\\Desktop\\meas_" + Kc.ToString() + "_" + Ti.ToString()
+                    + "_" + Td.ToString()  + ".csv";
             }
         }
 
