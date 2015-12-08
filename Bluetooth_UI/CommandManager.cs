@@ -34,14 +34,14 @@ namespace Bluetooth_UI
         }
 
         //connectionWorker szál
-        void connectionWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void connectionWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             bluetoothConnection.Connect();
             e.Result = (object) bluetoothConnection.ConnectionState;
         }
 
         //főszál
-        void connectionWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void connectionWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (bluetoothConnection.ConnectionState != "ConnectionUp")
                 bluetoothConnection.DataReceived -= dataReceived;
@@ -134,7 +134,28 @@ namespace Bluetooth_UI
                 bluetoothConnection.ConnectionState == "ConnectionUp")
             {
                 Command command = commands.Find(x => x.CommandName == commandName);
-                string commandText = "C" + command.CommandText;
+
+                string destiny = "S";
+
+                switch(commandDestiny)
+                {
+                    case SettingsManager.CommandDestiny.Bluetooth:
+                    {
+                        destiny = "B";
+                        break;
+                    }
+                    case SettingsManager.CommandDestiny.System:
+                    {
+                        destiny = "S";
+                        break;
+                    }
+                    case SettingsManager.CommandDestiny.WiFi:
+                    {
+                        destiny = "W";
+                        break;
+                    }
+                }
+                string commandText = destiny + command.CommandText;
 
                 if (command.ParameterNumber > 0)
                     commandText += "=" + param1;
